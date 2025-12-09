@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Task</title>
+    <script type="module" src="../utils/tcas-jssdk.js"></script>
+    <link rel="stylesheet" href="../utils/style.css" />
+    <meta
+      name="description"
+      content="Lacak tugas harian Anda dengan daftar tugas yang sederhana dan bersih. Tingkatkan keterampilan sosial dan pembelajaran Anda dengan pengingat yang berguna."
+    />
+    <meta
+      name="keywords"
+      content="tugas, daftar tugas, tugas harian, keterampilan sosial, pembelajaran, produktivitas, pengingat"
+    />
+    <meta name="author" content="Nama Anda" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Today's Plan</h1>
+        <p class="task-count">3 Tasks</p>
+      </div>
+
+      <div class="tasks">
+        <div class="task">
+          <div class="task-icon">
+            <img
+              src="https://img.icons8.com/ios/50/000000/filled-like.png"
+              alt="heart"
+            />
+          </div>
+          <div class="task-details">
+            <p class="task-title">Say Hello</p>
+            <p class="task-desc">Practice greeting others</p>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-icon">
+            <img
+              src="https://img.icons8.com/ios/50/000000/filled-like.png"
+              alt="eye"
+            />
+          </div>
+          <div class="task-details">
+            <p class="task-title">Make Eye Contact</p>
+            <p class="task-desc">Look at kids when you talk</p>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-icon">
+            <img
+              src="https://img.icons8.com/ios/50/000000/hand.png"
+              alt="hand"
+            />
+          </div>
+          <div class="task-details">
+            <p class="task-title">Say Please & Thank You</p>
+            <p class="task-desc">Use praise words</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="add-task">
+        <h3>Add New Task</h3>
+        <div class="task-templates">
+          <div class="template">
+            <img
+              src="https://img.icons8.com/ios/50/000000/filled-like.png"
+              alt="social skills"
+            />
+            <p>Social Skills</p>
+          </div>
+          <div class="template">
+            <img
+              src="https://img.icons8.com/ios/50/000000/brain.png"
+              alt="learning"
+            />
+            <p>Learning</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button id="payBtn">Pay</button>
+      </div>
+    </div>
+
+    <script>
+      // Perbaikan: Event handler untuk tombol "Pay"
+      document.getElementById("payBtn").addEventListener("click", function (e) {
+        if (typeof wx !== "undefined" && wx.miniProgram) {
+          wx.miniProgram.navigateTo({ url: "/pages/pay/pay" });
+        } else {
+          console.log("wx.miniProgram tidak ditemukan!");
+        }
+      });
+
+      // Fungsi untuk mendapatkan semua parameter GET dari URL
+      function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        let paramsObj = {};
+
+        // Menyimpan setiap parameter dalam objek paramsObj
+        params.forEach((value, key) => {
+          paramsObj[key] = value;
+        });
+
+        // Menampilkan parameter di konsol
+        console.log("Semua parameter URL:", paramsObj);
+        return paramsObj;
+      }
+
+      // Menggunakan TCSAS-JSSDK untuk mengirimkan pesan ke mini program
+      if (typeof wx !== "undefined" && wx.miniProgram) {
+        wx.miniProgram.postMessage({ data: { name: "hi data" } });
+        wx.miniProgram.sendWebviewEvent({ data: { message: "hi data" } });
+      }
+
+      // Menjalankan fungsi saat halaman dimuat
+      window.onload = function () {
+        const urlParams = getUrlParams();
+        // Gunakan data URL atau SDK sesuai kebutuhan Anda
+        console.log("TCSAS Data or URL Params:", urlParams);
+      };
+
+      // Login atau fungsionalitas lain yang didukung TCSAS-JSSDK
+      // Cek apakah wx.miniProgram tersedia dan melakukan autentikasi
+      if (typeof wx !== "undefined" && wx.miniProgram) {
+        wx.miniProgram.login({
+          success: function (response) {
+            console.log("Login sukses:", response);
+          },
+          fail: function (error) {
+            console.error("Login gagal:", error);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
