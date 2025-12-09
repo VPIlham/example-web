@@ -25,56 +25,6 @@
         height: 100px;
       }
     </style>
-    <script>
-      document.getElementById("payBtn").addEventListener("click", function (e) {
-        if (typeof wx !== "undefined" && wx.miniProgram) {
-          wx.miniProgram.navigateTo({ url: "/pages/index/index" });
-        } else {
-          console.log("wx.miniProgram tidak ditemukan!");
-        }
-      });
-
-      // Fungsi untuk mendapatkan semua parameter GET dari URL
-      function getUrlParams() {
-        const params = new URLSearchParams(window.location.search);
-        let paramsObj = {};
-
-        // Menyimpan setiap parameter dalam objek paramsObj
-        params.forEach((value, key) => {
-          paramsObj[key] = value;
-        });
-
-        // Menampilkan parameter di konsol
-        console.log("Semua parameter URL:", paramsObj);
-        return paramsObj;
-      }
-
-      // Menggunakan TCSAS-JSSDK untuk mengirimkan pesan ke mini program
-      if (typeof wx !== "undefined" && wx.miniProgram) {
-        wx.miniProgram.postMessage({ data: { name: "hi data" } });
-        wx.miniProgram.sendWebviewEvent({ data: { message: "hi data" } });
-      }
-
-      // Menjalankan fungsi saat halaman dimuat
-      window.onload = function () {
-        const urlParams = getUrlParams();
-        // Gunakan data URL atau SDK sesuai kebutuhan Anda
-        console.log("TCSAS Data or URL Params:", urlParams);
-      };
-
-      // Login atau fungsionalitas lain yang didukung TCSAS-JSSDK
-      // Cek apakah wx.miniProgram tersedia dan melakukan autentikasi
-      if (typeof wx !== "undefined" && wx.miniProgram) {
-        wx.miniProgram.login({
-          success: function (response) {
-            console.log("Login sukses:", response);
-          },
-          fail: function (error) {
-            console.error("Login gagal:", error);
-          },
-        });
-      }
-    </script>
   </head>
   <body>
     <div class="container">
@@ -147,5 +97,55 @@
         <button id="payBtn" style="width: 90px; height: 30px">Pay</button>
       </div>
     </div>
+    <script>
+      document.getElementById("payBtn").addEventListener("click", function (e) {
+        if (typeof wx !== "undefined" && wx.miniProgram) {
+          wx.miniProgram.navigateTo({ url: "/pages/index/index" });
+        } else {
+          console.log("wx.miniProgram tidak ditemukan!");
+        }
+      });
+
+      // Fungsi untuk mendapatkan semua parameter GET dari URL
+      function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        let paramsObj = {};
+
+        // Menyimpan setiap parameter dalam objek paramsObj
+        params.forEach((value, key) => {
+          paramsObj[key] = value;
+        });
+
+        // Menampilkan parameter di konsol
+        console.log("Semua parameter URL:", paramsObj);
+        return paramsObj;
+      }
+
+      // Menggunakan TCSAS-JSSDK untuk mengirimkan pesan ke mini program
+      if (typeof wx !== "undefined" && wx.miniProgram) {
+        wx.miniProgram.postMessage({ data: { name: "hi data" } });
+        wx.miniProgram.sendWebviewEvent({ data: { message: "hi data" } });
+      }
+
+      // Menjalankan fungsi saat halaman dimuat
+      window.onload = function () {
+        const urlParams = getUrlParams();
+        // Gunakan data URL atau SDK sesuai kebutuhan Anda
+        console.log("TCSAS Data or URL Params:", urlParams);
+      };
+
+      // Login atau fungsionalitas lain yang didukung TCSAS-JSSDK
+      // Cek apakah wx.miniProgram tersedia dan melakukan autentikasi
+      if (typeof wx !== "undefined" && wx.miniProgram) {
+        wx.miniProgram.login({
+          success: function (response) {
+            console.log("Login sukses:", response);
+          },
+          fail: function (error) {
+            console.error("Login gagal:", error);
+          },
+        });
+      }
+    </script>
   </body>
 </html>
