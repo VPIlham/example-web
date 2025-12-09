@@ -94,15 +94,14 @@
         </div>
       </div>
       <div>
-        <button id="payBtn">Pay</button>
+        <button id="payBtn" style="width: 90px; height: 30px">Pay</button>
       </div>
     </div>
 
     <script>
-      // Perbaikan: Event handler untuk tombol "Pay"
       document.getElementById("payBtn").addEventListener("click", function (e) {
         if (typeof wx !== "undefined" && wx.miniProgram) {
-          wx.miniProgram.navigateTo({ url: "/pages/pay/pay" });
+          wx.miniProgram.navigateTo({ url: "/pages/index/index" });
         } else {
           console.log("wx.miniProgram tidak ditemukan!");
         }
