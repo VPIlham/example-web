@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Task</title>
-    <script type="module" src="../utils/tcas-jssdk.js"></script>
+    <script src="../utils/tcas-jssdk.js"></script>
     <link rel="stylesheet" href="../utils/style.css" />
     <meta
       name="description"
@@ -93,19 +93,18 @@
           </div>
         </div>
       </div>
-      <div>
+      <br />
+      <br />
+      <div style="display: flex; justify-content: center; gap: 10px">
         <button id="payBtn" style="width: 90px; height: 30px">Pay</button>
+        <button id="backButton">Go Back</button>
+        <button id="sendMessage">Send Message To MiniProgram</button>
+
+        <!-- Div to display the message in red -->
+        <div id="message"></div>
       </div>
     </div>
     <script>
-      document.getElementById("payBtn").addEventListener("click", function (e) {
-        if (typeof wx !== "undefined" && wx.miniProgram) {
-          wx.miniProgram.navigateTo({ url: "/pages/index/index" });
-        } else {
-          console.log("wx.miniProgram tidak ditemukan!");
-        }
-      });
-
       // Fungsi untuk mendapatkan semua parameter GET dari URL
       function getUrlParams() {
         const params = new URLSearchParams(window.location.search);
@@ -134,6 +133,24 @@
         console.log("TCSAS Data or URL Params:", urlParams);
       };
 
+      document.getElementById("payBtn").addEventListener("click", function (e) {
+        if (typeof wx !== "undefined" && wx.miniProgram) {
+          //   wx.miniProgram.navigateTo({ url: "/pages/index/index" });
+          //   wx.miniProgram.redirectTo({ url: "/pages/index/index" });
+          wx.setNavigationBarTitle({
+            title: "title",
+            success: (res) => {
+              console.log("setNavigationBarTitle success", res);
+            },
+            fail: (err) => {
+              console.log("setNavigationBarTitle fail", err);
+            },
+          });
+        } else {
+          console.log("wx.miniProgram tidak ditemukan!");
+        }
+      });
+
       // Login atau fungsionalitas lain yang didukung TCSAS-JSSDK
       // Cek apakah wx.miniProgram tersedia dan melakukan autentikasi
       if (typeof wx !== "undefined" && wx.miniProgram) {
@@ -146,6 +163,48 @@
           },
         });
       }
+
+      if (typeof wx !== "undefined" && wx.miniProgram?.onWebviewEvent) {
+        // Listen for events from the mini program
+        wx.miniProgram.onWebviewEvent(function (event) {
+          const receiveMessage = event.message;
+          // Display the message in the red content on the page
+          document.getElementById(
+            "message"
+          ).innerText = `I received a message from the miniProgram [ ${receiveMessage} ]`;
+        });
+      } else {
+        document.getElementById("message").innerText =
+          "The current environment does not support [wx.miniProgram.onWebviewEvent]";
+      }
+
+      document
+        .getElementById("backButton")
+        .addEventListener("click", function () {
+          if (typeof wx !== "undefined" && wx.miniProgram?.navigateBack) {
+            // Go back to the previous page
+            wx.miniProgram.navigateBack({
+              delta: 1,
+            });
+          } else {
+            document.getElementById("message").innerText =
+              "The current environment does not support [wx.miniProgram.navigateBack]";
+          }
+        });
+
+      document
+        .getElementById("sendMessage")
+        .addEventListener("click", function () {
+          if (typeof wx !== "undefined" && wx.miniProgram?.sendWebviewEvent) {
+            // Send a message to the miniProgram
+            wx.miniProgram.sendWebviewEvent({
+              message: "Hi miniProgram, I'm offline H5",
+            });
+          } else {
+            document.getElementById("message").innerText =
+              "The current environment does not support [wx.miniProgram.sendWebviewEvent]";
+          }
+        });
     </script>
   </body>
 </html>
